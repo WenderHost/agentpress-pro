@@ -27,16 +27,20 @@ add_action( 'wp_enqueue_scripts', 'agentpress_google_fonts' );
 function agentpress_google_fonts() {
 
 	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Lato:300,700|Roboto:700,300,400', array(), CHILD_THEME_VERSION );
-		
+
 }
 
 //* Enqueue Scripts
 add_action( 'wp_enqueue_scripts', 'agentpress_scripts' );
 function agentpress_scripts() {
+	//* Remove default style.css, add /lib/main.css
+	$handle  = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
+	wp_deregister_style( $handle );
+	wp_enqueue_style( $handle, get_bloginfo( 'stylesheet_directory' ) . '/lib/css/main.css', false, filemtime( get_stylesheet_directory() . '/lib/css/main.css' ) );
 
 	wp_enqueue_style( 'dashicons' );
 	wp_enqueue_script( 'agentpress-responsive-menu', get_bloginfo( 'stylesheet_directory' ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
-		
+
 }
 
 //* Add new image sizes
@@ -71,18 +75,18 @@ add_theme_support( 'genesis-style-selector', array(
 add_filter( 'agentpress_property_details', 'agentpress_property_details_filter' );
 function agentpress_property_details_filter( $details ) {
 
-    $details['col1'] = array( 
-        __( 'Price:', 'agentpress' )   => '_listing_price', 
-        __( 'Address:', 'agentpress' ) => '_listing_address', 
-        __( 'City:', 'agentpress' )    => '_listing_city', 
-        __( 'State:', 'agentpress' )   => '_listing_state', 
+    $details['col1'] = array(
+        __( 'Price:', 'agentpress' )   => '_listing_price',
+        __( 'Address:', 'agentpress' ) => '_listing_address',
+        __( 'City:', 'agentpress' )    => '_listing_city',
+        __( 'State:', 'agentpress' )   => '_listing_state',
         __( 'ZIP:', 'agentpress' )     => '_listing_zip',
     );
-    $details['col2'] = array( 
-        __( 'MLS #:', 'agentpress' )       => '_listing_mls', 
-        __( 'Square Feet:', 'agentpress' ) => '_listing_sqft', 
-        __( 'Bedrooms:', 'agentpress' )    => '_listing_bedrooms', 
-        __( 'Bathrooms:', 'agentpress' )   => '_listing_bathrooms', 
+    $details['col2'] = array(
+        __( 'MLS #:', 'agentpress' )       => '_listing_mls',
+        __( 'Square Feet:', 'agentpress' ) => '_listing_sqft',
+        __( 'Bedrooms:', 'agentpress' )    => '_listing_bedrooms',
+        __( 'Bathrooms:', 'agentpress' )   => '_listing_bathrooms',
         __( 'Basement:', 'agentpress' )    => '_listing_basement',
     );
 
@@ -117,7 +121,7 @@ add_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_breadcrumbs' );
 //* Remove comment form allowed tags
 add_filter( 'comment_form_defaults', 'agentpress_remove_comment_form_allowed_tags' );
 function agentpress_remove_comment_form_allowed_tags( $defaults ) {
-	
+
 	$defaults['comment_notes_after'] = '';
 	return $defaults;
 
