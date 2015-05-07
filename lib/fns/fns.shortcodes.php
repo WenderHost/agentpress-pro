@@ -23,8 +23,8 @@ function agentpress_team_member( $atts, $content ){
 		$content = '<code>Please enter a bio for this team member.</code>';
 
 	$format = '<div class="clearfix teammember">
-		<div class="one-third first"><img src="%1$s" /></div>
-		<div class="two-thirds">%2$s</div>
+		<div class="one-third first photo"><img src="%1$s" /></div>
+		<div class="two-thirds bio">%2$s</div>
 	</div>';
 
 	$html = sprintf( $format, $photo, $content );
