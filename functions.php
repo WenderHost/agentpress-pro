@@ -19,6 +19,12 @@ define( 'CHILD_THEME_VERSION', '3.1.1' );
 //* Include additional files
 include_once( get_stylesheet_directory() . '/lib/fns/fns.shortcodes.php' );
 
+//* Add Editor Styling in WordPress Admin
+add_action( 'admin_init', 'agentpress_editor_styles' );
+function agentpress_editor_styles(){
+	add_editor_style( 'lib/css/editor-styles.css' );
+}
+
 //* Add HTML5 markup structure
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 
