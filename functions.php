@@ -85,18 +85,14 @@ add_filter( 'agentpress_property_details', 'agentpress_property_details_filter' 
 function agentpress_property_details_filter( $details ) {
 
     $details['col1'] = array(
-        __( 'Price:', 'agentpress' )   => '_listing_price',
         __( 'Address:', 'agentpress' ) => '_listing_address',
         __( 'City:', 'agentpress' )    => '_listing_city',
         __( 'State:', 'agentpress' )   => '_listing_state',
         __( 'ZIP:', 'agentpress' )     => '_listing_zip',
+        __( 'Square Feet:', 'agentpress' ) => '_listing_sqft',
     );
     $details['col2'] = array(
-        __( 'MLS #:', 'agentpress' )       => '_listing_mls',
-        __( 'Square Feet:', 'agentpress' ) => '_listing_sqft',
-        __( 'Bedrooms:', 'agentpress' )    => '_listing_bedrooms',
-        __( 'Bathrooms:', 'agentpress' )   => '_listing_bathrooms',
-        __( 'Basement:', 'agentpress' )    => '_listing_basement',
+
     );
 
     return $details;
