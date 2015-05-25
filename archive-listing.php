@@ -87,6 +87,9 @@ function agentpress_listing_archive_loop() {
 
 		}
 
+		if( $address == $name )
+			$loop .= '<span class="listing-address">&nbsp;</span>';
+
 		//$loop .= sprintf( '<a href="%s" class="more-link">%s</a>', get_permalink(), __( 'View Listing', 'agentpress' ) );
 
 		/** wrap in post class div, and output **/
