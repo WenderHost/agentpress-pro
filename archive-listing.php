@@ -15,7 +15,7 @@ add_action( 'genesis_before_content_sidebar_wrap', 'agentpress_archive_widget' )
 function agentpress_archive_widget() {
 
 	if ( is_active_sidebar( 'listings-archive' ) ) {
-		
+
 		genesis_widget_area( 'listings-archive', array(
 			'before' => '<div class="listing-archive full-width widget-area">',
 			'after'  => '</div>',
@@ -35,22 +35,22 @@ add_action( 'genesis_loop', 'agentpress_listing_archive_loop' );
  * Custom loop for listing archive page
  */
 function agentpress_listing_archive_loop() {
-	
+
 	if ( have_posts() ) : while ( have_posts() ) : the_post();
 
-		$listing_price = genesis_get_custom_field( '_listing_price' );
 		$listing_text = genesis_get_custom_field( '_listing_text' );
 		$address = genesis_get_custom_field( '_listing_address' );
 		$city = genesis_get_custom_field( '_listing_city' );
 		$state = genesis_get_custom_field( '_listing_state' );
 		$zip = genesis_get_custom_field( '_listing_zip' );
-		
+		$sq_ft = genesis_get_custom_field( '_listing_sqft' );
+
 		$loop = ''; // init
-		
+
 		$loop .= sprintf( '<a href="%s">%s</a>', get_permalink(), genesis_get_image( array( 'size' => 'properties' ) ) );
-		
-		if( $listing_price ) {
-			$loop .= sprintf( '<span class="listing-price">%s</span>', $listing_price );
+
+		if( $sq_ft ) {
+			$loop .= sprintf( '<span class="listing-price">%s</span>', $sq_ft . ' ft<sup>2</sup>' );
 		}
 
 		if( $listing_text ) {
@@ -59,8 +59,8 @@ function agentpress_listing_archive_loop() {
 
 		if( $address ) {
 			$loop .= sprintf( '<span class="listing-address">%s</span>', $address );
-		}	
-		
+		}
+
 		if ( $city || $state || $zip ) {
 
 			//* count number of completed fields
@@ -88,14 +88,14 @@ function agentpress_listing_archive_loop() {
 		/** wrap in post class div, and output **/
 		printf( '<div class="%s"><div class="widget-wrap"><div class="listing-wrap">%s</div></div></div>', join( ' ', get_post_class() ), $loop );
 
-	endwhile; 
-	
+	endwhile;
+
 	genesis_posts_nav();
-	
+
 	else: printf( '<div class="entry"><p>%s</p></div>', __( 'Sorry, no properties matched your criteria.', 'agentpress' ) );
-	
+
 	endif;
-	
+
 }
 
 genesis();
