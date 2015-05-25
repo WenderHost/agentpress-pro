@@ -39,6 +39,7 @@ function agentpress_listing_archive_loop() {
 	if ( have_posts() ) : while ( have_posts() ) : the_post();
 
 		$listing_text = genesis_get_custom_field( '_listing_text' );
+		$name 		 = get_the_title();
 		$address = genesis_get_custom_field( '_listing_address' );
 		$city = genesis_get_custom_field( '_listing_city' );
 		$state = genesis_get_custom_field( '_listing_state' );
@@ -57,7 +58,10 @@ function agentpress_listing_archive_loop() {
 			$loop .= sprintf( '<span class="listing-text">%s</span>', $listing_text );
 		}
 
-		if( $address ) {
+		if( $name )
+			$loop .= sprintf( '<span class="listing-title"><a href="%s">%s</a></span>', get_permalink() , $name );
+
+		if ( $address != $name ) {
 			$loop .= sprintf( '<span class="listing-address">%s</span>', $address );
 		}
 
