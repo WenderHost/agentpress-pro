@@ -35,6 +35,36 @@ Widgets
 	text-align: center;
 }
 
+.widget-area{
+	.widget{
+		&.primary-color{
+			background-color: rgba(red(@primary-color),green(@primary-color),blue(@primary-color),0.9);
+			padding: 40px;
+			color: #fff;
+
+			a{
+				color: #fff;
+				display: block;
+				padding: 10px 12px;
+
+				&:hover{
+					color: @primary-color;
+					background-color: #fff;
+				}
+			}
+
+			li{
+				padding: 0;
+				border: none;
+			}
+
+			.textwidget{
+				margin: -12px;
+			}
+		}
+	}
+}
+
 /* Featured Content
 --------------------------------------------- */
 
