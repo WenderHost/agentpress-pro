@@ -28,7 +28,7 @@ function agentpress_listing_sidebar(){
 
 				if( ! empty( $resources ) ){
 					foreach( $resources as $key => $field ){
-						$html.= '<li><a href="' . $field['value'] . '">' . $field['label'] . '</a></li>';
+						$html.= '<li><a href="' . $field['value'] . '" target="_blank">' . $field['label'] . '</a></li>';
 					}
 
 					return '<ul>' . $html . '</ul>';
