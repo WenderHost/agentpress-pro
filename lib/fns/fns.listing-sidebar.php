@@ -11,10 +11,6 @@ function agentpress_listing_sidebar(){
 
 	$widgets = array(
 		array(
-			'content' => '[property_map]',
-			'attr' => array( 'style' => 'padding: 10px 10px 4px 10px;' ),
-		),
-		array(
 			'title' => 'Property Resources',
 			'content' => function(){
 				global $post;
