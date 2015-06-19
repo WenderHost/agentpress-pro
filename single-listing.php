@@ -38,7 +38,11 @@ add_action( 'genesis_entry_content', 'agentpress_listing_content' );
 function agentpress_listing_content(){
 	global $post;
 
-	$format = ( function_exists( 'get_field' ) )? '%1$s[property_details]' : '<div style="border: 1px solid #900; background-color: #ecc; padding: 40px;"><p><strong>Missing Required Plugin:</strong><br />Please install the <a href="https://wordpress.org/plugins/advanced-custom-fields/" target="_blank">Advanced Custom Fields plugin</a>.</p></div>';
+	if( function_exists( 'get_field') ){
+		$format = '%1$s[property_details]';
+	} else {
+		$format = '<div style="border: 1px solid #900; background-color: #ecc; padding: 40px;"><p><strong>Missing Required Plugin:</strong><br />Please install the <a href="https://wordpress.org/plugins/advanced-custom-fields/" target="_blank">Advanced Custom Fields plugin</a>.</p></div>'
+	}
 
 	$thumbnail = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large' ) : '<img src="http://placehold.it/1200x600&text=Image+coming+soon!" />';
 
