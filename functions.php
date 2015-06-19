@@ -37,6 +37,13 @@ function agentpress_property_sort( $query ) {
     }
 }
 
+//* Remove AgentPress Listings plugin metabox
+//add_action( 'init', 'remove_listings_metabox' );
+function remove_listings_metabox(){
+	global $_agentpress_listings;
+	remove_action( 'admin_menu', array( $_agentpress_listings, 'register_meta_boxes' ), 5 );
+}
+
 //* Add HTML5 markup structure
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 
@@ -61,6 +68,11 @@ function agentpress_scripts() {
 
 	wp_enqueue_style( 'dashicons' );
 	wp_enqueue_script( 'agentpress-responsive-menu', get_bloginfo( 'stylesheet_directory' ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
+
+	if( is_single() && 'listing' == get_post_type() ){
+		wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false' );
+		wp_enqueue_script( 'listing-js', get_bloginfo( 'stylesheet_directory' ) . '/lib/js/listing.js', array( 'jquery', 'google-maps' ), filemtime( get_stylesheet_directory() . '/lib/js/listing.js' ), true  );
+	}
 
 }
 
@@ -157,7 +169,7 @@ add_action( 'genesis_footer', 'agentpress_disclaimer' );
 add_action( 'genesis_before', 'agentpress_listing_styles' );
 function agentpress_listing_styles() {
 	if ( is_singular( 'listing' ) || is_post_type_archive( 'listing' ) ) {
-		remove_action( 'genesis_entry_header', 'genesis_post_info', 12 );
+		//remove_action( 'genesis_entry_header', 'genesis_post_info', 12 );
 		remove_action( 'genesis_entry_footer', 'genesis_entry_footer_markup_open', 5 );
 		remove_action( 'genesis_entry_footer', 'genesis_post_meta' );
 		remove_action( 'genesis_entry_footer', 'genesis_entry_footer_markup_close', 15 );

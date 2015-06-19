@@ -39,11 +39,14 @@ function agentpress_listing_archive_loop() {
 	if ( have_posts() ) : while ( have_posts() ) : the_post();
 
 		$listing_text = genesis_get_custom_field( '_listing_text' );
-		$name 		 = get_the_title();
-		$address = genesis_get_custom_field( '_listing_address' );
-		$city = genesis_get_custom_field( '_listing_city' );
-		$state = genesis_get_custom_field( '_listing_state' );
-		$zip = genesis_get_custom_field( '_listing_zip' );
+		$name = get_the_title();
+		if( function_exists( 'get_field' ) ){
+			$map = get_field( 'map' );
+			$address = $map['address'];
+		} else {
+			$address = '**Missing ACF Plugin**';
+		}
+
 		$sq_ft = genesis_get_custom_field( '_listing_sqft' );
 
 		$loop = ''; // init
@@ -58,11 +61,24 @@ function agentpress_listing_archive_loop() {
 			$loop .= sprintf( '<span class="listing-text">%s</span>', $listing_text );
 		}
 
-		if( $name )
+		if( $name && ! stristr( $address, $name ) )
 			$loop .= sprintf( '<span class="listing-title"><a href="%s">%s</a></span>', get_permalink() , $name );
 
 		if ( $address != $name ) {
-			$loop .= sprintf( '<span class="listing-address">%s</span>', $address );
+			$formatted_address = $address;
+
+			/*
+			 * If the property's name == the 1st line of its address,
+			 * link the first line of the address to the property's page,
+			 * and add a double br to make the content the same height as
+			 * properties with names != the 1st line of their addresses.
+			 */
+			if( stristr( $address, $name ) )
+				$formatted_address = preg_replace( '/(.*),/U', '<a href="' . get_permalink() . '">${1}</a>,', $formatted_address, 1  ) . '<br /><br />';
+
+			$formatted_address = preg_replace( '/,/', '<br \/>', $formatted_address, 1 );
+			$formatted_address = str_replace( array( ', United States', ', US'), '', $formatted_address );
+			$loop .= sprintf( '<span class="listing-address">%s</span>', $formatted_address );
 		}
 
 		if ( $city || $state || $zip ) {
