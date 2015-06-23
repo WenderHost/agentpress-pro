@@ -43,7 +43,7 @@ function agentpress_listing_post_info( $info ){
 	if( ! is_array( $map ) || 0 == count( $map ) )
 		return false;
 
-	$info = '<span class="address">' . $map['address'] . ' (<a href="https://www.google.com/maps/place/' . urlencode( $map['address'] ) . '" target="_blank">Map</a>)</span>';
+	$info = '<span class="address">' . $map['address'] . ' (<a href="https://www.google.com/maps/place/' . urlencode( $map['address'] ) . '" target="_blank">View Map</a>)</span>';
 
 	return $info;
 }
