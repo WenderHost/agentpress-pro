@@ -1,6 +1,8 @@
 /*
 Site Navigation
 ---------------------------------------------------------------------------------------------------- */
+@menu-bkgrd-color: #fff;
+@menu-shadow-color: rgba(0,0,0,0.5);
 
 .genesis-nav-menu {
 	clear: both;
@@ -23,12 +25,12 @@ Site Navigation
 	a:hover,
 	.current-menu-item > a,
 	.sub-menu .current-menu-item > a:hover {
-		background-color: #fff;
+		background-color: @menu-bkgrd-color;
 		color: @primary-color;
 	}
 
-	@menu-bkgrd-color: #fff;
-	@menu-shadow-color: rgba(0,0,0,0.5);
+
+
 	.sub-menu {
 		background-color: @menu-bkgrd-color;
 		left: -9999px;
@@ -124,7 +126,7 @@ Site Navigation
 
 		.current-menu-item > a,
 		.sub-menu .current-menu-item > a{
-			background-color: darken(#fff,5%);
+			background-color: darken(@menu-bkgrd-color,10%);
 		}
 
 		.sub-menu a {
