@@ -79,7 +79,13 @@ function agentpress_listing_content(){
 	}
 	$html[] = '<div class="one-half first"><strong>Total Square Footage:</strong><br />' . number_format( $total_square_footage ) . ' ft<sup>2</sup></div><div class="one-half"><strong>Traffic Count:</strong><br />' . number_format( $traffic_count ) . ' vehicles per day</div>';
 
-	if( !empty( $population ) || ! empty( $average_household_income ) || ! empty( $current_anchor_stores ) ){
+	if( ! empty( $population ) || ! empty( $average_household_income ) || ! empty( $current_anchor_stores ) ){
+		$list_vars = array( 'population', 'average_household_income', 'current_anchor_stores' );
+		foreach( $list_vars as $var ){
+			if( ! empty( $$var ) && strstr( $$var, "\n" ) )
+				$$var = build_list( $$var );
+		}
+
 		$html[] = '<div class="one-third first"><strong>Population:</strong><br />' . $population . '</div><div class="one-third"><strong>Avg. Household Income:</strong><br />'. $average_household_income .'</div><div class="one-third"><strong>Current Anchor Stores:</strong><br />' . $current_anchor_stores . '</div>';
 	}
 
@@ -95,6 +101,27 @@ function agentpress_listing_content(){
 	$html = implode( '', $html );
 
 	echo do_shortcode( $html );
+}
+
+/**
+ * Returns an HTML list from a multi-line string.
+ *
+ * @since 1.0.0
+ *
+ * @param string $string Multi-line string.
+ * @return string HTML unordered list.
+ */
+function build_list( $string ){
+	if( ! strstr( $string, "\n") )
+		return $string;
+
+	$array = explode( "\n", $string );
+	foreach( $array as $value ){
+		$li[] = '<li>' . $value . '</li>';
+	}
+	$ul = '<ul>' . implode( '', $li ) . '</ul>';
+
+	return $ul;
 }
 
 genesis();
