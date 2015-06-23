@@ -61,25 +61,38 @@ function agentpress_listing_content(){
 	global $post;
 
 	if( function_exists( 'get_field') ){
-		$format = '%1$s%3$s%2$s';
+		$format = '%1$s%3$s%4$s%%2$s';
 	} else {
 		$format = '<div style="border: 1px solid #900; background-color: #ecc; padding: 40px;"><p><strong>Missing Required Plugin:</strong><br />Please install the <a href="https://wordpress.org/plugins/advanced-custom-fields/" target="_blank">Advanced Custom Fields plugin</a>.</p></div>';
 	}
 
-	$thumbnail = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large' ) : '<img src="http://placehold.it/1200x600&text=Image+coming+soon!" />';
+	$html[] = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large' ) : '<img src="http://placehold.it/1200x600&text=Image+coming+soon!" />';
+
+	$post_content = get_the_content();
+	if( ! empty( $post_content ) )
+		$html[] = apply_filters( 'the_content', $post_content );
+
+	// Property Details
+	$property_details_array = array( 'Total Square Footage' => 'total_square_footage', 'Current Anchor Stores' => 'current_anchor_stores', 'Population' => 'population', 'Average Household Income' => 'average_household_income', 'Traffic Count' => 'traffic_count' );
+	foreach( $property_details_array as $label => $name ){
+		$$name = get_field( $name );
+	}
+	$html[] = '<div class="one-half first"><strong>Total Square Footage:</strong><br />' . number_format( $total_square_footage ) . ' ft<sup>2</sup></div><div class="one-half"><strong>Traffic Count:</strong><br />' . number_format( $traffic_count ) . ' vehicles per day</div>';
+
+	if( !empty( $population ) || ! empty( $average_household_income ) || ! empty( $current_anchor_stores ) ){
+		$html[] = '<div class="one-third first"><strong>Population:</strong><br />' . $population . '</div><div class="one-third"><strong>Avg. Household Income:</strong><br />'. $average_household_income .'</div><div class="one-third"><strong>Current Anchor Stores:</strong><br />' . $current_anchor_stores . '</div>';
+	}
+
+
 
 	$map = get_field( 'map' );
 	if( ! empty( $map ) ){
 		$format_map = '<div class="acf-map"><div class="marker" data-lat="%1$s" data-lng="%2$s"></div></div>';
 
-		$map_html = sprintf( $format_map, $map['lat'], $map['lng'] );
+		$html[] = sprintf( $format_map, $map['lat'], $map['lng'] );
 	}
 
-	$post_content = get_the_content();
-	if( ! empty( $post_content ) )
-		$post_content = apply_filters( 'the_content', $post_content );
-
-	$html = sprintf( $format, $thumbnail, $map_html, $post_content );
+	$html = implode( '', $html );
 
 	echo do_shortcode( $html );
 }

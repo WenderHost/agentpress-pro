@@ -34,6 +34,13 @@ function agentpress_listing_sidebar(){
 			},
 			'classes' => 'primary-color',
 		),
+		array(
+			'title' => 'Request Information',
+			'content' => '<p>Contact us for further information about this property:</p><ul>
+			<li><a href="mailto:info@hpiknox.com?subject=Information%20Request: ' . get_the_title() . '" target="_blank">info@hpiknox.com</a></li>
+			</ul>',
+			'classes' => 'primary-color',
+		),
 	);
 
 	foreach( $widgets as $widget ){
