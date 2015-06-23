@@ -61,7 +61,7 @@ function agentpress_listing_content(){
 	global $post;
 
 	if( function_exists( 'get_field') ){
-		$format = '%1$s%2$s';
+		$format = '%1$s%3$s%2$s';
 	} else {
 		$format = '<div style="border: 1px solid #900; background-color: #ecc; padding: 40px;"><p><strong>Missing Required Plugin:</strong><br />Please install the <a href="https://wordpress.org/plugins/advanced-custom-fields/" target="_blank">Advanced Custom Fields plugin</a>.</p></div>';
 	}
@@ -75,7 +75,11 @@ function agentpress_listing_content(){
 		$map_html = sprintf( $format_map, $map['lat'], $map['lng'] );
 	}
 
-	$html = sprintf( $format, $thumbnail, $map_html );
+	$post_content = get_the_content();
+	if( ! empty( $post_content ) )
+		$post_content = apply_filters( 'the_content', $post_content );
+
+	$html = sprintf( $format, $thumbnail, $map_html, $post_content );
 
 	echo do_shortcode( $html );
 }
