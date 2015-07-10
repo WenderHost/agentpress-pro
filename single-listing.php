@@ -66,11 +66,11 @@ function agentpress_listing_content(){
 		$format = '<div style="border: 1px solid #900; background-color: #ecc; padding: 40px;"><p><strong>Missing Required Plugin:</strong><br />Please install the <a href="https://wordpress.org/plugins/advanced-custom-fields/" target="_blank">Advanced Custom Fields plugin</a>.</p></div>';
 	}
 
-	$html[] = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large' ) : '<img src="http://placehold.it/1200x600&text=Image+coming+soon!" />';
+	$html[] = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large', array( 'class' => 'property-image' ) ) : '<img src="http://placehold.it/1200x600&text=Image+coming+soon!" />';
 
 	$post_content = get_the_content();
 	if( ! empty( $post_content ) )
-		$html[] = apply_filters( 'the_content', $post_content );
+		$html[] = '<div class="description">' . apply_filters( 'the_content', $post_content ) . '</div>';
 
 	// Property Details
 	$property_details_array = array( 'Total Square Footage' => 'total_square_footage', 'Current Anchor Stores' => 'current_anchor_stores', 'Population' => 'population', 'Average Household Income' => 'average_household_income', 'Traffic Count' => 'traffic_count' );
