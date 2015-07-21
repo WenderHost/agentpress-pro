@@ -1,12 +1,11 @@
 <?php
-
 /**
  * Page template for `listing` CPT.
  *
  *
  *
  * @link URL
- * @since 1.x.x
+ * @since 1.0.0
  *
  * @package AgentPress Theme
  * @subpackage Component
