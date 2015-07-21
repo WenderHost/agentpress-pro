@@ -17,6 +17,7 @@ define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/agentpress/' );
 define( 'CHILD_THEME_VERSION', '3.1.1' );
 
 //* Include additional files
+include_once( get_stylesheet_directory() . '/lib/classes/class.property-map-widget.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.gravityforms.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.listing-sidebar.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.shortcodes.php' );
@@ -70,9 +71,12 @@ function agentpress_scripts() {
 	wp_enqueue_style( 'dashicons' );
 	wp_enqueue_script( 'agentpress-responsive-menu', get_bloginfo( 'stylesheet_directory' ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
 
+	wp_register_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false' );
+	wp_register_script( 'listing-js', get_bloginfo( 'stylesheet_directory' ) . '/lib/js/listing.js', array( 'jquery', 'google-maps' ), filemtime( get_stylesheet_directory() . '/lib/js/listing.js' ), true  );
+
 	if( is_single() && 'listing' == get_post_type() ){
-		wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false' );
-		wp_enqueue_script( 'listing-js', get_bloginfo( 'stylesheet_directory' ) . '/lib/js/listing.js', array( 'jquery', 'google-maps' ), filemtime( get_stylesheet_directory() . '/lib/js/listing.js' ), true  );
+		wp_enqueue_script( 'google-maps' );
+		wp_enqueue_script( 'listing-js' );
 	}
 
 }
