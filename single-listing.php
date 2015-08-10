@@ -10,6 +10,8 @@
  * @package AgentPress Theme
  * @subpackage Component
  */
+//* Force full width content layout
+add_filter( 'genesis_site_layout', '__genesis_return_full_width_content' );
 
 add_action( 'genesis_meta', 'agentpress_listing_genesis_meta' );
 /**
@@ -21,9 +23,11 @@ add_action( 'genesis_meta', 'agentpress_listing_genesis_meta' );
  */
 function agentpress_listing_genesis_meta() {
 	remove_action( 'genesis_entry_content', 'genesis_do_post_content', 10 );
+	/*
 	remove_action( 'genesis_sidebar', 'genesis_do_sidebar', 10 );
 	if( function_exists( 'get_field' ) )
 		add_action( 'genesis_sidebar', 'agentpress_listing_sidebar');
+	/**/
 }
 
 add_filter( 'genesis_post_info', 'agentpress_listing_post_info' );
