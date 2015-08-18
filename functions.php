@@ -73,11 +73,15 @@ function agentpress_scripts() {
 	wp_enqueue_script( 'agentpress-responsive-menu', get_bloginfo( 'stylesheet_directory' ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
 
 	wp_register_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false' );
-	wp_register_script( 'listing-js', get_bloginfo( 'stylesheet_directory' ) . '/lib/js/listing.js', array( 'jquery', 'google-maps' ), filemtime( get_stylesheet_directory() . '/lib/js/listing.js' ), true  );
+	wp_register_script( 'listing-js', get_bloginfo( 'stylesheet_directory' ) . '/lib/js/listing.js', array( 'jquery', 'google-maps', 'responsive-tabs' ), filemtime( get_stylesheet_directory() . '/lib/js/listing.js' ), true  );
+	wp_register_script( 'responsive-tabs', get_stylesheet_directory_uri() . '/node_modules/responsive-tabs/js/jquery.responsiveTabs.min.js', array( 'jquery' ), '1.5.0', true );
+	//wp_register_style( 'responsive-tabs', get_stylesheet_directory_uri() . '/node_modules/responsive-tabs/css/responsive-tabs.css' );
 
 	if( is_single() && 'listing' == get_post_type() ){
 		wp_enqueue_script( 'google-maps' );
 		wp_enqueue_script( 'listing-js' );
+		wp_enqueue_script( 'responsive-tabs' );
+		//wp_enqueue_style( 'responsive-tabs' );
 	}
 
 }

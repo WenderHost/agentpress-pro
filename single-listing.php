@@ -10,6 +10,8 @@
  * @package AgentPress Theme
  * @subpackage Component
  */
+
+
 //* Force full width content layout
 add_filter( 'genesis_site_layout', '__genesis_return_full_width_content' );
 
@@ -23,7 +25,7 @@ add_action( 'genesis_meta', 'agentpress_listing_genesis_meta' );
  */
 function agentpress_listing_genesis_meta() {
 	remove_action( 'genesis_entry_content', 'genesis_do_post_content', 10 );
-	/*
+	//*
 	remove_action( 'genesis_sidebar', 'genesis_do_sidebar', 10 );
 	if( function_exists( 'get_field' ) )
 		add_action( 'genesis_sidebar', 'agentpress_listing_sidebar');
@@ -98,10 +100,23 @@ function agentpress_listing_content(){
 	if( ! empty( $map ) ){
 		$format_map = '<div class="acf-map"><div class="marker" data-lat="%1$s" data-lng="%2$s"></div></div>';
 
-		$html[] = sprintf( $format_map, $map['lat'], $map['lng'] );
+		$map_html = sprintf( $format_map, $map['lat'], $map['lng'] );
 	}
 
-	$html = implode( '', $html );
+	$html = '<div id="property-tabs">
+		<ul>
+			<li><a href="#overview">Overview</a></li>
+			<li><a href="#siteplan">Site Plan</a></li>
+			<li><a href="#map">Map</a></li>
+			<li><a href="#photos">Photos</a></li>
+		</ul>
+		<div id="overview">' . implode( '', $html ) . '</div>
+		<div id="siteplan"><p>Site plan will go here.</p></div>
+		<div id="map">' . $map_html . '</div>
+		<div id="photos"><p>Add a photo gallery here.</p></div>
+	</div>';
+
+	//$html = implode( '', $html );
 
 	echo do_shortcode( $html );
 }

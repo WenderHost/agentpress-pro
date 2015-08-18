@@ -6,7 +6,7 @@ Plugins
 --------------------------------------------- */
 .acf-map {
 	width: 100%;
-	height: 400px;
+	height: 800px;
 	border: #ccc solid 1px;
 	margin: 20px 0;
 
@@ -143,4 +143,48 @@ Plugins
 
 #wpstats {
 	display: none;
+}
+
+/* jQuery Responsive Tabs
+--------------------------------------------- */
+.r-tabs{
+	.r-tabs-nav{
+	    margin: 0;
+	    padding: 0;
+	    border-bottom: 3px solid @accent-color;
+	}
+
+	.r-tabs-tab {
+	    display: inline-block;
+	    margin: 0;
+	    list-style: none;
+	    padding: 10px 16px;
+	    background-color: @accent-color;
+	}
+
+	.r-tabs-panel {
+	    padding: 15px;
+	    display: none;
+	}
+
+	.r-tabs-accordion-title {
+	    display: none;
+	}
+
+	.r-tabs-panel{
+		&.r-tabs-state-active {
+		    display: block;
+		}
+	}
+}
+
+/* Accordion responsive breakpoint */
+@media only screen and (max-width: 768px) {
+    .r-tabs .r-tabs-nav {
+        display: none;
+    }
+
+    .r-tabs .r-tabs-accordion-title {
+        display: block;
+    }
 }
