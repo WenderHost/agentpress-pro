@@ -15,7 +15,9 @@ function agentpress_listing_archive_loop() {
 			$address = '**Missing ACF Plugin**';
 		}
 
-		$sq_ft = genesis_get_custom_field( '_listing_sqft' );
+		$sq_ft = get_field( 'total_size' );
+		if( is_numeric( $sq_ft ) )
+			$sq_ft = number_format( $sq_ft );
 
 		$loop = ''; // init
 
