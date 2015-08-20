@@ -129,6 +129,9 @@ function agentpress_listing_content(){
 		foreach( $additional_details_rows as $field_name ){
 			$field = get_field_object( $field_name );
 			if( $field ){
+				if( empty( $field['value'] ) )
+					continue;
+
 				switch( $field['type'] ){
 					case 'number':
 						$value = number_format( $field['value'] );
@@ -165,7 +168,7 @@ function agentpress_listing_content(){
 
 	// Site Plan
 	$site_plan = get_field( 'site_plan' );
-	if( ! empty( $site_plan ) ){
+	if( isset( $site_plan['url'] ) && ! empty( $site_plan['url'] ) ){
 		$html['site_plan'] = '<a href="' . $site_plan['url'] . '" target="_blank"><img src="' . $site_plan['url'] . '" width="' . $site_plan['width'] . '" height="' . $site_plan['height'] . '" class="site-plan" /></a>';
 		$sublots = get_field( 'sublots' );
 		if( $sublots ){
