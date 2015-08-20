@@ -17,6 +17,7 @@ define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/agentpress/' );
 define( 'CHILD_THEME_VERSION', '3.1.1' );
 
 //* Include additional files
+include_once( get_stylesheet_directory() . '/lib/acf/acf.property-fields.php' );
 include_once( get_stylesheet_directory() . '/lib/classes/class.property-map-widget.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.gravityforms.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.listings.php' );
