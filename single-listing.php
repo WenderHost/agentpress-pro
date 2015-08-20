@@ -71,36 +71,122 @@ function agentpress_listing_content(){
 		$format = '<div style="border: 1px solid #900; background-color: #ecc; padding: 40px;"><p><strong>Missing Required Plugin:</strong><br />Please install the <a href="https://wordpress.org/plugins/advanced-custom-fields/" target="_blank">Advanced Custom Fields plugin</a>.</p></div>';
 	}
 
-	$html[] = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large', array( 'class' => 'property-image' ) ) : '<img src="http://placehold.it/1200x600&text=Image+coming+soon!" />';
+	$html = array();
 
-	$post_content = get_the_content();
-	if( ! empty( $post_content ) )
-		$html[] = '<div class="description">' . apply_filters( 'the_content', $post_content ) . '</div>';
+	$format_overview = '<div class="two-thirds first">%1$s%3$s%4$s</div><div class="one-third"><h3>Description</h3>%2$s</div>';
+	$thumbnail = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large', array( 'class' => 'property-image' ) ) : '<img src="http://placehold.it/1200x600&text=Image+coming+soon!" />';
+	$post_content = apply_filters( 'the_content', get_the_content() );
 
-	// Property Details
-	$property_details_array = array( 'Total Square Footage' => 'total_square_footage', 'Current Anchor Stores' => 'current_anchor_stores', 'Population' => 'population', 'Average Household Income' => 'average_household_income', 'Traffic Count' => 'traffic_count' );
-	foreach( $property_details_array as $label => $name ){
-		$$name = get_field( $name );
+	// Demographics
+	if( function_exists( 'get_field' ) ){
+		$rows_html = array();
+		$rows = get_field( 'demographics_rows' );
+		if( $rows ){
+			$format_demographics = '<h3>Demographics</h3><table><colgroup><col style="width: 32%%;" /><col style="width: 17%%;" /><col style="width: 17%%;" /><col style="width: 17%%;" /><col style="width: 17%%;" /></colgroup>
+				<thead>
+					<tr>
+						<th>Distance</th>
+						<th>1 mi.</th>
+						<th>3 mi.</th>
+						<th>5 mi.</th>
+						<th>7 mi.</th>
+					</tr>
+				</thead>
+				<tbody>
+					%1$s
+				</tbody>
+			</table>';
+
+			foreach( $rows as $row ){
+				$headings = array( '1mi', '3mi', '5mi', '7mi' );
+				$columns = '';
+				foreach( $headings as $heading ){
+					$value = ( ! empty( $row[$heading] ) )? $row[$heading] : '--' ;
+					if( is_numeric( $value ) )
+						$value = number_format( $value );
+					$columns.= '<td>' . $value . '</td>';
+				}
+				$rows_html[] = '<tr><td>' . $row['label'] . '</td>' . $columns . '</tr>';
+			}
+		} else {
+			$rows_html[] = '<tr><td>No demographics data found.</td></tr>';
+		}
+		$demographics_html = sprintf( $format_demographics, implode( '', $rows_html ) );
+	} else {
+		$demographics_html = '<p><strong>MISSING PLUGIN:</strong><br />Please install the <a href="http://www.advancedcustomfields.com/pro/" target="_blank">ACF Pro Plugin.</a></p>';
 	}
-	$html[] = '<div class="one-half first"><strong>Total Square Footage:</strong><br />' . number_format( $total_square_footage ) . ' ft<sup>2</sup></div><div class="one-half"><strong>Traffic Count:</strong><br />' . number_format( $traffic_count ) . ' vehicles per day</div>';
 
-	if( ! empty( $population ) || ! empty( $average_household_income ) || ! empty( $current_anchor_stores ) ){
-		$list_vars = array( 'population', 'average_household_income', 'current_anchor_stores' );
-		foreach( $list_vars as $var ){
-			if( ! empty( $$var ) && strstr( $$var, "\n" ) )
-				$$var = build_list( $$var );
+	// Additional Details
+	if( function_exists( 'get_field' ) ){
+		$format_additional_details = '<h3>Additional Details</h3><table><colgroup><col style="width: 32%%;" /><col style="width: 68%%;" /></colgroup>
+			<tbody>
+				%1$s
+			</tbody>
+		</table>';
+
+		$rows_html = array();
+		$additional_details_rows = array( 'total_size', 'traffic_count', 'anchor_stores' );
+		foreach( $additional_details_rows as $field_name ){
+			$field = get_field_object( $field_name );
+			if( $field ){
+				switch( $field['type'] ){
+					case 'number':
+						$value = number_format( $field['value'] );
+					break;
+					case 'textarea':
+						$value = build_comma_list( $field['value'] );
+					break;
+					default:
+						$value = $field['value'];
+					break;
+				}
+
+				if( ! empty( $field['prepend'] ) )
+					$value = $field['prepend']. ' ' . $value;
+
+				if( ! empty( $field['append'] ) )
+					$value.= ' ' . $field['append'];
+
+				$rows_html[] = '<tr><td>' . $field['label'] . '</td><td>' . $value . '</td></tr>';
+			}
 		}
 
-		$html[] = '<div class="one-third first"><strong>Population:</strong><br />' . $population . '</div><div class="one-third"><strong>Avg. Household Income:</strong><br />'. $average_household_income .'</div><div class="one-third"><strong>Current Anchor Stores:</strong><br />' . $current_anchor_stores . '</div>';
+		$additional_details_rows = get_field( 'additional_details_rows' );
+		if( $additional_details_rows ){
+			foreach( $additional_details_rows as $row ){
+				$rows_html[] = '<tr><td>' . $row['label'] . '</td><td>' . $row['value'] . '</td></tr>';
+			}
+		}
+
+		$additional_details_html = sprintf( $format_additional_details, implode( '', $rows_html ) );
 	}
 
+	$html['overview'] = sprintf( $format_overview, $thumbnail, $post_content, $demographics_html, $additional_details_html );
 
+	// Site Plan
+	$site_plan = get_field( 'site_plan' );
+	if( ! empty( $site_plan ) ){
+		$html['site_plan'] = '<a href="' . $site_plan['url'] . '" target="_blank"><img src="' . $site_plan['url'] . '" width="' . $site_plan['width'] . '" height="' . $site_plan['height'] . '" class="site-plan" /></a>';
+		$sublots = get_field( 'sublots' );
+		if( $sublots ){
+			$sublots_format = '<h3>Available Sublots</h3><table><colgroup><col style="width: 30%%" /><col style="width: 70%%" /></colgroup><tbody>%1$s</tbody></table>';
+			$sublots_rows = array();
+			foreach( $sublots as $sublot ){
+				$sublots_rows[] = '<tr><td><img src="' . $sublot['sublot_image']['url'] . '" width="' . $sublot['sublot_image']['width'] . '" height="' . $sublot['sublot_image']['height'] . '" /></td><td>' . $sublot['sublot_size'] . '</td></tr>';
+			}
 
+			$html['site_plan'].= sprintf( $sublots_format, implode( '', $sublots_rows ) );
+		}
+	} else {
+		$html['site_plan'] = '<p>A site plan is unavailable at this time. Please check back soon.</p>';
+	}
+
+	// Google Map
 	$map = get_field( 'map' );
 	if( ! empty( $map ) ){
 		$format_map = '<div class="acf-map"><div class="marker" data-lat="%1$s" data-lng="%2$s"></div></div>';
 
-		$map_html = sprintf( $format_map, $map['lat'], $map['lng'] );
+		$html['map'] = sprintf( $format_map, $map['lat'], $map['lng'] );
 	}
 
 	$html = '<div id="property-tabs">
@@ -108,17 +194,35 @@ function agentpress_listing_content(){
 			<li><a href="#overview">Overview</a></li>
 			<li><a href="#siteplan">Site Plan</a></li>
 			<li><a href="#map">Map</a></li>
-			<li><a href="#photos">Photos</a></li>
 		</ul>
-		<div id="overview">' . implode( '', $html ) . '</div>
-		<div id="siteplan"><p>Site plan will go here.</p></div>
-		<div id="map">' . $map_html . '</div>
-		<div id="photos"><p>Add a photo gallery here.</p></div>
+		<div id="overview">' . $html['overview'] . '</div>
+		<div id="siteplan">' . $html['site_plan'] . '</div>
+		<div id="map">' . $html['map'] . '</div>
 	</div>';
 
-	//$html = implode( '', $html );
-
 	echo do_shortcode( $html );
+}
+
+/**
+ * Returns a comma separated list from a multi-line string.
+ *
+ * @since 1.0.0
+ *
+ * @param string $string Multi-line string.
+ * @return string HTML unordered list.
+ */
+function build_comma_list( $string ){
+	if( ! strstr( $string, "\n") )
+		return $string;
+
+	$array = explode( "\n", $string );
+	foreach( $array as $value ){
+		if( ! empty( $value ) )
+			$items[] = trim( $value );
+	}
+	$list = implode( ', ', $items );
+
+	return $list;
 }
 
 /**

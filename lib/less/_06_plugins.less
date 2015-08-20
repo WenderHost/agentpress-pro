@@ -151,15 +151,36 @@ Plugins
 	.r-tabs-nav{
 	    margin: 0;
 	    padding: 0;
-	    border-bottom: 3px solid @accent-color;
+	    border-bottom: 3px solid @primary-color;
 	}
 
 	.r-tabs-tab {
 	    display: inline-block;
 	    margin: 0;
 	    list-style: none;
-	    padding: 10px 16px;
-	    background-color: @accent-color;
+	    background-color: darken(@accent-color,10%);
+
+	    &.r-tabs-state-active{
+		    background-color: @primary-color;
+
+			a{
+				color: #fff;
+
+				&:hover{
+					background-color: @primary-color;
+				}
+			}
+	    }
+
+	    a{
+	    	display: block;
+		    padding: 10px 16px;
+		    outline: 0;
+
+		    &:hover{
+		    	background-color: darken(@accent-color,20%);
+		    }
+	    }
 	}
 
 	.r-tabs-panel {
@@ -174,6 +195,7 @@ Plugins
 	.r-tabs-panel{
 		&.r-tabs-state-active {
 		    display: block;
+		    padding-top: 30px;
 		}
 	}
 }
@@ -184,7 +206,34 @@ Plugins
         display: none;
     }
 
-    .r-tabs .r-tabs-accordion-title {
-        display: block;
+    .r-tabs{
+	    .r-tabs-accordion-title {
+	        display: block;
+
+	        a.r-tabs-anchor{
+	        	background-color: @accent-color;
+	        	outline: 0;
+	        	width: 100%;
+	        	display: inline-block;
+	        	padding: 10px 16px;
+	        	margin-bottom: 4px;
+
+	        	&:hover{
+					background-color: darken(@accent-color,10%);
+	        	}
+	        }
+
+	        &.r-tabs-state-active{
+	        	a.r-tabs-anchor{
+	        		background-color: darken(@accent-color,10%);
+	        	}
+	        }
+	    }
+
+	    .r-tabs-panel{
+	    	&.r-tabs-state-active{
+	    		padding-top: 10px;
+	    	}
+	    }
     }
 }
