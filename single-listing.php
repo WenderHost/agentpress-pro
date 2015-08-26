@@ -73,7 +73,7 @@ function agentpress_listing_content(){
 
 	$html = array();
 
-	$format_overview = '<div class="two-thirds first">%1$s%3$s%4$s</div><div class="one-third"><h3>Description</h3>%2$s</div>';
+	$format_overview = '<div class="two-thirds first">%1$s%3$s%4$s</div><div class="one-third">%2$s</div>';
 	$thumbnail = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large', array( 'class' => 'property-image' ) ) : '<img src="http://placehold.it/1200x600&text=Image+coming+soon!" />';
 	$post_content = apply_filters( 'the_content', get_the_content() );
 
