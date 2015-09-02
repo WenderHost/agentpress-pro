@@ -39,6 +39,7 @@ class Property_Map_Widget extends WP_Widget {
 		$maps = array();
 		foreach( $posts as $post ){
 			$map = get_field( 'map', $post->ID );
+			//echo '<pre>$map = '.print_r($map,true).'</pre>';
 			$format_map = '<div class="marker" data-lat="%1$s" data-lng="%2$s"><h4><a href="%3$s" target="_blank" title="Click for Details">%4$s</a></h4><p class="entry-meta"><span class="address">%6$s</span></p><a href="%3$s" target="_blank" title="Click for Details">%5$s</a></div>';
 
 			$thumbnail = ( has_post_thumbnail( $post->ID ) )? get_the_post_thumbnail( $post->ID, 'properties', array( 'class' => 'map-image' ) ) : '<img src="http://placehold.it/500x300&text=Image+coming+soon!" />';
