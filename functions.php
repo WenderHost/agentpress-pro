@@ -54,6 +54,9 @@ add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list'
 //* Add viewport meta tag for mobile browsers
 add_theme_support( 'genesis-responsive-viewport' );
 
+//* Add accessiblity support
+add_theme_support( 'genesis-accessibility', array( 'headings' ) );
+
 //* Enqueue Google fonts
 add_action( 'wp_enqueue_scripts', 'agentpress_google_fonts' );
 function agentpress_google_fonts() {
