@@ -33,8 +33,12 @@ function agentpress_editor_styles(){
 //* Sort `listing` post_type archive alphabetically
 add_action( 'pre_get_posts', 'agentpress_property_sort' );
 function agentpress_property_sort( $query ) {
-    if ( $query->is_main_query() && !is_admin() ) {
+    if ( $query->is_main_query() && ! is_admin() ) {
         if ( $query->is_post_type_archive('listing') ) {
+            $query->set('orderby', 'title');
+            $query->set('order', 'ASC');
+        }
+        if( $query->is_tax( 'propertytype') && ! is_admin() ){
             $query->set('orderby', 'title');
             $query->set('order', 'ASC');
         }
