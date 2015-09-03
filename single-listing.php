@@ -169,7 +169,7 @@ function agentpress_listing_content(){
 	// Site Plan
 	$site_plan = get_field( 'site_plan' );
 	if( isset( $site_plan['url'] ) && ! empty( $site_plan['url'] ) ){
-		$html['site_plan'] = '<a href="' . $site_plan['url'] . '" target="_blank"><img src="' . $site_plan['url'] . '" width="' . $site_plan['width'] . '" height="' . $site_plan['height'] . '" class="site-plan" /></a>';
+		$site_plan_content = '<a href="' . $site_plan['url'] . '" target="_blank"><img src="' . $site_plan['url'] . '" width="' . $site_plan['width'] . '" height="' . $site_plan['height'] . '" class="site-plan" /></a>';
 		$sublots = get_field( 'sublots' );
 		if( $sublots ){
 			$sublots_format = '<h3>Available Sublots</h3><table><colgroup><col style="width: 30%%" /><col style="width: 70%%" /></colgroup><tbody>%1$s</tbody></table>';
@@ -178,8 +178,10 @@ function agentpress_listing_content(){
 				$sublots_rows[] = '<tr><td><img src="' . $sublot['sublot_image']['url'] . '" width="' . $sublot['sublot_image']['width'] . '" height="' . $sublot['sublot_image']['height'] . '" /></td><td>' . $sublot['sublot_size'] . '</td></tr>';
 			}
 
-			$html['site_plan'].= sprintf( $sublots_format, implode( '', $sublots_rows ) );
+			$site_plan_content.= sprintf( $sublots_format, implode( '', $sublots_rows ) );
+			$html['site_plan_content'] = "\n" . '<div id="siteplan">' . $site_plan_content . '</div>';
 		}
+		$html['site_plan_tab'] = "\n" . '<li><a href="#siteplan">Site Plan</a></li>';
 	} else {
 		$html['site_plan'] = '<p>A site plan is unavailable at this time. Please check back soon.</p>';
 	}
@@ -194,12 +196,10 @@ function agentpress_listing_content(){
 
 	$html = '<div id="property-tabs">
 		<ul>
-			<li><a href="#overview">Overview</a></li>
-			<li><a href="#siteplan">Site Plan</a></li>
+			<li><a href="#overview">Overview</a></li>' . $html['site_plan_tab'] . '
 			<li><a href="#map">Map</a></li>
 		</ul>
-		<div id="overview">' . $html['overview'] . '</div>
-		<div id="siteplan">' . $html['site_plan'] . '</div>
+		<div id="overview">' . $html['overview'] . '</div>' . $html['site_plan_content'] . '
 		<div id="map">' . $html['map'] . '</div>
 	</div>';
 
