@@ -168,7 +168,9 @@ function agentpress_listing_content(){
 
 	// Site Plan
 	$site_plan = get_field( 'site_plan' );
-	if( isset( $site_plan['url'] ) && ! empty( $site_plan['url'] ) ){
+	$html['site_plan_tab'] = '';
+	$html['site_plan_content'] = '';
+	if( isset( $site_plan['url'] ) && ! empty( $site_plan['url'] ) && ! stristr( $site_plan['url'], '.pdf' ) ){
 		$site_plan_content = '<a href="' . $site_plan['url'] . '" target="_blank"><img src="' . $site_plan['url'] . '" width="' . $site_plan['width'] . '" height="' . $site_plan['height'] . '" class="site-plan" /></a>';
 		$sublots = get_field( 'sublots' );
 		if( $sublots ){
@@ -179,11 +181,9 @@ function agentpress_listing_content(){
 			}
 
 			$site_plan_content.= sprintf( $sublots_format, implode( '', $sublots_rows ) );
-			$html['site_plan_content'] = "\n" . '<div id="siteplan">' . $site_plan_content . '</div>';
 		}
+		$html['site_plan_content'] = "\n" . '<div id="siteplan">' . $site_plan_content . '</div>';
 		$html['site_plan_tab'] = "\n" . '<li><a href="#siteplan">Site Plan</a></li>';
-	} else {
-		$html['site_plan'] = '<p>A site plan is unavailable at this time. Please check back soon.</p>';
 	}
 
 	// Google Map
