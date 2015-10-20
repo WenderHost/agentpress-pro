@@ -101,8 +101,8 @@ add_image_size( 'properties', 500, 300, TRUE );
 add_theme_support( 'custom-header', array(
 	'header-selector' => '.site-title a',
 	'header-text'     => false,
-	'height'          => 80,
-	'width'           => 320,
+	'height'          => 160,	// 80
+	'width'           => 640,	// 320
 ) );
 
 //* Add support for structural wraps
