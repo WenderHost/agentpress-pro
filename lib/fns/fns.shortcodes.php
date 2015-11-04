@@ -23,6 +23,7 @@ function agentpress_team_member( $atts, $content = '' ){
 		'name'	=> '',
 		'title'	=> '',
 		'bio'	=> '',
+		'url'	=> '',
 	), $atts ) );
 
 	if( empty( $content ) )
@@ -43,6 +44,9 @@ function agentpress_team_member( $atts, $content = '' ){
 		$title = ( ! empty( $title ) )? '<div class="archive-title">' . $title . '</div>' : '';
 		$content = sprintf( $format_content, $name, $title, $bio );
 	}
+
+	if( ! empty( $url ) && true == filter_var( $url, FILTER_VALIDATE_URL ) )
+		$photo = $url;
 
 	$html = sprintf( $format, $photo, $content );
 
@@ -80,5 +84,71 @@ function agentpress_team_member_ui(){
 			),
 		),
 	) );
+}
+
+/**
+ * Adds a url attribute to [teammember] shortcodes.
+ *
+ * We use a valid URL value in the url attribute to override
+ * the attachment ID found in the photo attribute. This
+ * allows this shortcode to work properly when it is in
+ * content which has been “RAMPed” from a staging to
+ * production environement where the attachment IDs are not
+ * the same.
+ *
+ * @since 1.x.x.
+ *
+ * @param int $post_id Post ID.
+ * @return void
+ */
+add_action( 'save_post', 'agentpress_team_member_add_url' );
+function agentpress_team_member_add_url( $post_id ){
+
+	// Skip if this is a post revision
+	if( wp_is_post_revision( $post_id ) )
+		return;
+
+	$post = get_post( $post_id );
+	$post_content = $post->post_content;
+
+	// Skip if missing [teammember] shortcode
+	if( ! has_shortcode( $post_content, 'teammember' ) )
+		return;
+
+	preg_match_all( '/\[teammember\s(.*)\]/', $post_content, $matches );
+
+	if( ! $matches )
+		return;
+
+	$shortcodes = $matches[0];
+	$attributes = $matches[1];
+	foreach( $shortcodes as $key => $shortcode ){
+
+		if( ! stristr( $shortcode, 'photo=' ) )
+			continue;
+
+		preg_match( '/photo="([0-9]+)"/', $shortcode, $match );
+		if( ! $match )
+			continue;
+
+		$attachment_id = $match[1];
+
+		$attachment = wp_get_attachment_image_src( $attachment_id, 'large' );
+		if( is_array( $attachment ) )
+			$photo_url = $attachment[0];
+
+		if( ! stristr( $attributes[$key], 'url=' ) ){
+			$new_attributes = $attributes[$key] . ' url="' . $photo_url . '"';
+			$new_shortcode = str_replace( $attributes[$key], $new_attributes, $shortcode );
+			$post_content = str_replace( $shortcode, $new_shortcode, $post_content );
+		}
+	}
+
+	// Unhook this function to prevent an infinite loop:
+	remove_action( 'save_post', 'agentpress_team_member_add_url' );
+
+	wp_update_post( array( 'ID' => $post_id, 'post_content' => $post_content ) );
+
+	add_action( 'save_post', 'agentpress_team_member_add_url' );
 }
 ?>
