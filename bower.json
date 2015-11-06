@@ -1,0 +1,22 @@
+{
+  "name": "agentpress-pro",
+  "description": "AGENTPRESS PRO THEME http://my.studiopress.com/themes/agentpress/",
+  "main": "front-page.php",
+  "authors": [
+    "Michael Wender"
+  ],
+  "license": "GPLv2",
+  "homepage": "https://github.com/WenderHost/agentpress-pro",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "tabletop": "~1.4.2"
+  }
+}
