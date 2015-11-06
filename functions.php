@@ -85,6 +85,13 @@ function agentpress_scripts() {
 	wp_register_script( 'responsive-tabs', get_stylesheet_directory_uri() . '/node_modules/responsive-tabs/js/jquery.responsiveTabs.min.js', array( 'jquery' ), '1.5.0', true );
 	//wp_register_style( 'responsive-tabs', get_stylesheet_directory_uri() . '/node_modules/responsive-tabs/css/responsive-tabs.css' );
 
+	// Tabletop
+	wp_register_script( 'tabletop', get_stylesheet_directory_uri() . '/bower_components/tabletop/src/tabletop.js', null, filemtime( get_stylesheet_directory() . '/bower_components/tabletop/src/tabletop.js' ), true );
+
+	// Datatables
+	wp_register_script( 'datatables', 'https://cdn.datatables.net/r/dt/dt-1.10.9,r-1.0.7/datatables.min.js', array( 'jquery', 'tabletop' ), null, true );
+	wp_register_style( 'datatables', 'https://cdn.datatables.net/r/dt/dt-1.10.9,r-1.0.7/datatables.min.css' );
+
 	if( is_single() && 'listing' == get_post_type() ){
 		wp_enqueue_script( 'google-maps' );
 		wp_enqueue_script( 'listing-js' );

@@ -1,4 +1,23 @@
 <?php
+add_shortcode( 'spreadsheet', 'agentpress_spreadsheet' );
+function agentpress_spreadsheet( $atts ){
+	shortcode_atts( array(
+		'id' => null,
+	), $atts );
+
+	$json_url = sprintf( 'https://spreadsheets.google.com/feeds/list/%s/od6/public/basic?alt=json', $atts['id'] );
+	$sheet_url = sprintf( 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=%s&output=html', $atts['id'] );
+
+	wp_enqueue_script( 'datatables' );
+	wp_enqueue_style( 'datatables' );
+	wp_enqueue_script( 'agentpress-dt', get_stylesheet_directory_uri() . '/js/agentpress-dt.js', array( 'datatables' ), filemtime( get_stylesheet_directory() . '/js/agentpress-dt.js' ) );
+	wp_localize_script( 'agentpress-dt', 'wpvars', array( 'json' => $json_url, 'sheet' => $sheet_url, 'key' => $atts['id'] ) );
+
+	$html = file_get_contents( get_stylesheet_directory() . '/lib/includes/datatable.html' );
+
+	echo $html;
+}
+
 /**
  * Returns HTML for displaying a `Team Member`.
  *
