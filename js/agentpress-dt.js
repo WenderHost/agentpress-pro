@@ -90,7 +90,9 @@
 	    		center_map(map);
 	    		return false;
 	    	}
-	    	add_marker( $(this), map );
+	    	window.setTimeout(function(){
+	    		add_marker( $(this), map )
+	    	}, 1000);
 		});
 		/**/
 	}
