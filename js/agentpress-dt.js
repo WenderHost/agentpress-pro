@@ -1,6 +1,10 @@
 (function($){
 	var geofinish = 0;
 
+	// Setup loading overlay
+	var loadingParent = $('.map-container .loading').parent();
+	$('.map-container .loading').width( loadingParent.width() ).css( 'z-index', 1 );
+
 	$(document).ready( function ($) {
 		function initTableTop() {
 			Tabletop.init( {
@@ -66,13 +70,16 @@
 
 	function render_map( $el ) {
 
+		// Show loading overlay
+		$('.map-container .loading').css( 'z-index', 1 );
+
 		// var
 		var $markers = $el.find('.marker');
 
 		// vars
 		var args = {
-			zoom		: 8,
-			center		: new google.maps.LatLng(0,0),
+			zoom		: 10,
+			center		: new google.maps.LatLng(35.924209,-84.090641),
 			mapTypeId	: google.maps.MapTypeId.ROADMAP,
 			scrollwheel	: false
 		};
@@ -136,7 +143,7 @@
 			// fit to bounds
 			map.fitBounds( bounds );
 		}
-
+		$('.map-container .loading').css( 'z-index', -1 );
 	}
 
 	/*
@@ -201,14 +208,11 @@
 				retry = Math.floor( Math.random() * (max - min) ) + min;
 				console.log('Geocode for `' + address + '` was not successful. Reason: ' + status + "\nRetrying in " + retry + "ms..." );
 				$marker.address = address;
-				//*
 				if( 'OVER_QUERY_LIMIT' == status ){
 					window.setTimeout(function(){
 						add_marker( $marker, map );
 					},retry);
 				}
-				/**/
-				//center_map(map);
 			}
 		});
 	}
