@@ -25,6 +25,7 @@
 				data: data,
 				order: [ [ 3, 'asc'], [ 2, 'asc'] ],
 				lengthMenu: [10,20,50,100],
+				dom: 'pfrti',
 				processing: true,
 				columnDefs: [
 					{ name: 'Property', data: 'Property', targets: 0 },
@@ -33,9 +34,9 @@
 					{ name: 'State', data: 'State', targets: 3 }
 				],
 				rowCallback: function(row,data,dataIndex){
-					console.log(data);
+					//console.log(data);
 					$('#past-developments-map').append('<div class="marker" data-city="' + data.City + '" data-state="' + data.State + '">' + data.Property + ', ' + data['Square Feet'] + 'ft<sup>2</sup><br>' + data.City + ', ' + data.State + '</div>');
-					console.log( data.Property + ' - ' + data.City + ', ' + data.State );
+					//console.log( data.Property + ' - ' + data.City + ', ' + data.State );
 				},
 				drawCallback: function(settings){
 					// Build Google Map
@@ -90,9 +91,7 @@
 	    		center_map(map);
 	    		return false;
 	    	}
-	    	window.setTimeout(function(){
-	    		add_marker( $(this), map )
-	    	}, 1000);
+	    	add_marker( $(this), map );
 		});
 		/**/
 	}
@@ -158,9 +157,14 @@
 
 		var geocoder = new google.maps.Geocoder();
 
-		var address = $marker.attr('data-city') + ', ' + $marker.attr( 'data-state' );
+		if( typeof $marker.address !== 'undefined' ){
+			var address = $marker.address;
+		} else {
+			var address = $marker.attr('data-city') + ', ' + $marker.attr( 'data-state' );
+		}
 
 		geocoder.geocode({'address': address}, function(results,status){
+
 			if( status == google.maps.GeocoderStatus.OK ){
 
 				var marker = new google.maps.Marker({
@@ -192,8 +196,19 @@
 				}
 
 			} else {
-				console.log('Geocode for `' + address + '` was not successful. Reason: ' + status );
-				center_map(map);
+				max = 2500;
+				min = 1500;
+				retry = Math.floor( Math.random() * (max - min) ) + min;
+				console.log('Geocode for `' + address + '` was not successful. Reason: ' + status + "\nRetrying in " + retry + "ms..." );
+				$marker.address = address;
+				//*
+				if( 'OVER_QUERY_LIMIT' == status ){
+					window.setTimeout(function(){
+						add_marker( $marker, map );
+					},retry);
+				}
+				/**/
+				//center_map(map);
 			}
 		});
 	}
