@@ -1,5 +1,5 @@
 (function($){
-	var geofinish = 0;
+	var defaultMapCenter = {lat: 35.924209, lng: -84.090641 };
 
 	// Setup loading overlay
 	var loadingParent = $('.map-container .loading').parent();
@@ -29,6 +29,7 @@
 				data: data,
 				order: [ [ 3, 'asc'], [ 2, 'asc'] ],
 				lengthMenu: [10,20,50,100],
+				paging: false,
 				dom: 'pfrti',
 				processing: true,
 				columnDefs: [
@@ -39,8 +40,7 @@
 				],
 				rowCallback: function(row,data,dataIndex){
 					//console.log(data);
-					$('#past-developments-map').append('<div class="marker" data-city="' + data.City + '" data-state="' + data.State + '">' + data.Property + ', ' + data['Square Feet'] + 'ft<sup>2</sup><br>' + data.City + ', ' + data.State + '</div>');
-					//console.log( data.Property + ' - ' + data.City + ', ' + data.State );
+					$('#past-developments-map').append('<div class="marker" data-city="' + data.City + '" data-state="' + data.State + '" data-lat="' + data.Latitude + '" data-lng="' + data.Longitude + '">' + data.Property + ', ' + data['Square Feet'] + 'ft<sup>2</sup><br>' + data.City + ', ' + data.State + '</div>');
 				},
 				drawCallback: function(settings){
 					// Build Google Map
@@ -49,10 +49,6 @@
 				}
 			});
 		};
-
-		// Build Google Map
-		//var developmentsMap = $('#past-developments-map');
-		//render_map( developmentsMap );
 	});
 
 	/*
@@ -67,7 +63,6 @@
 	*  @param	$el (jQuery element)
 	*  @return	n/a
 	*/
-
 	function render_map( $el ) {
 
 		// Show loading overlay
@@ -79,7 +74,7 @@
 		// vars
 		var args = {
 			zoom		: 10,
-			center		: new google.maps.LatLng(35.924209,-84.090641),
+			center		: defaultMapCenter,
 			mapTypeId	: google.maps.MapTypeId.ROADMAP,
 			scrollwheel	: false
 		};
@@ -89,17 +84,13 @@
 
 		// add a markers reference
 		map.markers = [];
-		map.markers_count = $markers.length;
 
 		// add markers
-		//*
 		$markers.each(function(i){
-	    	if( 10 <= geofinish ){
-	    		center_map(map);
-	    		return false;
-	    	}
 	    	add_marker( $(this), map );
 		});
+
+		center_map(map);
 		/**/
 	}
 
@@ -117,8 +108,8 @@
 	*/
 
 	function center_map( map ) {
-		geofinish = 0; // reset counter for finished geocoding cycles
-		console.log("\n" + 'Centering map...');
+
+		console.log("\n" + 'Centering map for ' + map.markers.length + ' markers...');
 
 		// vars
 		var bounds = new google.maps.LatLngBounds();
@@ -131,15 +122,13 @@
 
 		});
 
-		// only 1 marker?
-		if( map.markers.length == 1 )
-		{
+		if( map.markers.length == 1 ){
 			// set center of map
 		    map.setCenter( bounds.getCenter() );
 		    map.setZoom( 12 );
-		}
-		else
-		{
+		} else if( map.markers.length == 0){
+			map.setCenter( defaultMapCenter );
+		} else {
 			// fit to bounds
 			map.fitBounds( bounds );
 		}
@@ -159,62 +148,30 @@
 	*  @param	map (Google Map object)
 	*  @return	n/a
 	*/
-
 	function add_marker( $marker, map ) {
 
-		var geocoder = new google.maps.Geocoder();
-
-		if( typeof $marker.address !== 'undefined' ){
-			var address = $marker.address;
-		} else {
-			var address = $marker.attr('data-city') + ', ' + $marker.attr( 'data-state' );
-		}
-
-		geocoder.geocode({'address': address}, function(results,status){
-
-			if( status == google.maps.GeocoderStatus.OK ){
-
-				var marker = new google.maps.Marker({
-					position: 	results[0].geometry.location,
-					map: 		map
-				});
-
-				// add to array
-				var addingMarker = map.markers.push( marker );
-				$.when(addingMarker).done(function(){
-					geofinish++;
-					if( geofinish == map.markers_count ){
-						center_map(map);
-					}
-				});
-
-				// if marker contains HTML, add it to an infoWindow
-				if( $marker.html() )
-				{
-					// create info window
-					var infowindow = new google.maps.InfoWindow({
-						content		: $marker.html()
-					});
-
-					// show info window when marker is clicked
-					google.maps.event.addListener(marker, 'click', function() {
-						infowindow.open( map, marker );
-					});
-				}
-
-			} else {
-				max = 2500;
-				min = 1500;
-				retry = Math.floor( Math.random() * (max - min) ) + min;
-				console.log('Geocode for `' + address + '` was not successful. Reason: ' + status + "\nRetrying in " + retry + "ms..." );
-				$marker.address = address;
-				if( 'OVER_QUERY_LIMIT' == status ){
-					window.setTimeout(function(){
-						add_marker( $marker, map );
-					},retry);
-				}
-			}
+		var markerLatLng = {lat: parseFloat( $marker.attr( 'data-lat' ) ), lng: parseFloat( $marker.attr( 'data-lng' ) ) };
+		console.log(markerLatLng);
+		var marker = new google.maps.Marker({
+			position: markerLatLng,
+			map: map
 		});
+		map.markers.push( marker );
+
+		// if marker contains HTML, add it to an infoWindow
+		if( $marker.html() ){
+			// create info window
+			var infowindow = new google.maps.InfoWindow({
+				content		: $marker.html()
+			});
+
+			// show info window when marker is clicked
+			google.maps.event.addListener(marker, 'click', function() {
+
+				infowindow.open( map, marker );
+
+			});
+		}
 	}
 
 })(jQuery);
