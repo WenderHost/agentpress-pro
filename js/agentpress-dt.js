@@ -27,7 +27,7 @@
 		function writeTable(data){
 			$('#past-developments').DataTable({
 				data: data,
-				order: [ [ 3, 'asc'], [ 2, 'asc'] ],
+				order: [ [ 3, 'asc'], [ 2, 'asc'], [ 0, 'asc' ] ],
 				lengthMenu: [10,20,50,100],
 				paging: false,
 				dom: 'pfrti',
