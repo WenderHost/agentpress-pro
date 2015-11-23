@@ -30,6 +30,9 @@ function agentpress_editor_styles(){
 	add_editor_style( 'lib/css/editor-styles.css' );
 }
 
+//* Process shortcodes in widgets
+add_filter( 'widget_text', 'do_shortcode' );
+
 //* Sort `listing` post_type archive alphabetically
 add_action( 'pre_get_posts', 'agentpress_property_sort' );
 function agentpress_property_sort( $query ) {
