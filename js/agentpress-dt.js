@@ -1,5 +1,6 @@
 (function($){
 	var defaultMapCenter = {lat: 35.924209, lng: -84.090641 };
+	var developmentsMap = $('#past-developments-map');
 
 	// Setup loading overlay
 	var loadingParent = $('.map-container .loading').parent();
@@ -10,7 +11,15 @@
 			Tabletop.init( {
 				key: wpvars.key,
 				callback: function(data,tabletop){
-					writeTable(data);
+					if( true == wpvars.render_table ){
+						renderTable(data);
+					} else {
+						data.forEach(function(element, index){
+							console.log( element );
+							$('#past-developments-map').append('<div class="marker" data-city="' + element.City + '" data-state="' + element.State + '" data-lat="' + element.Latitude + '" data-lng="' + element.Longitude + '">' + element.Property + ', ' + element['Square Feet'] + 'ft<sup>2</sup><br>' + element.City + ', ' + element.State + '</div>');
+						});
+						render_map( developmentsMap );
+					}
 				},
 				simpleSheet: true,
 				debug: false
@@ -24,7 +33,7 @@
 			{'data': 'state', 'title': 'State' }
 		];
 
-		function writeTable(data){
+		function renderTable(data){
 			$('#past-developments').DataTable({
 				data: data,
 				order: [ [ 3, 'asc'], [ 2, 'asc'], [ 0, 'asc' ] ],
@@ -44,7 +53,6 @@
 				},
 				drawCallback: function(settings){
 					// Build Google Map
-					var developmentsMap = $('#past-developments-map');
 					render_map( developmentsMap );
 				}
 			});

@@ -1,8 +1,10 @@
 <?php
-add_shortcode( 'spreadsheet', 'agentpress_spreadsheet' );
-function agentpress_spreadsheet( $atts ){
-	shortcode_atts( array(
+add_shortcode( 'past-developments', 'agentpress_past_developments' );
+function agentpress_past_developments( $atts ){
+	$atts = shortcode_atts( array(
 		'id' => null,
+		'render_table' => true,
+		'template' => 'past-developments-table'
 	), $atts );
 
 	$json_url = sprintf( 'https://spreadsheets.google.com/feeds/list/%s/od6/public/basic?alt=json', $atts['id'] );
@@ -11,9 +13,11 @@ function agentpress_spreadsheet( $atts ){
 	wp_enqueue_script( 'datatables' );
 	wp_enqueue_style( 'datatables' );
 	wp_enqueue_script( 'agentpress-dt', get_stylesheet_directory_uri() . '/js/agentpress-dt.js', array( 'datatables', 'google-maps' ), filemtime( get_stylesheet_directory() . '/js/agentpress-dt.js' ) );
-	wp_localize_script( 'agentpress-dt', 'wpvars', array( 'json' => $json_url, 'sheet' => $sheet_url, 'key' => $atts['id'] ) );
+	wp_localize_script( 'agentpress-dt', 'wpvars', array( 'json' => $json_url, 'sheet' => $sheet_url, 'key' => $atts['id'], 'render_table' => $atts['render_table'] ) );
 
-	$html = file_get_contents( get_stylesheet_directory() . '/lib/includes/datatable.html' );
+	$template_file = ( file_exists( get_stylesheet_directory() . '/lib/includes/' . $atts['template'] . '.html' ) )? get_stylesheet_directory() . '/lib/includes/' . $atts['template'] . '.html' : get_stylesheet_directory() . '/lib/includes/past-developments-table.html' ;
+
+	$html = file_get_contents( $template_file );
 
 	echo $html;
 }
