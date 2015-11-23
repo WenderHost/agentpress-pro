@@ -13,6 +13,9 @@ function agentpress_past_developments( $atts ){
 	wp_enqueue_script( 'datatables' );
 	wp_enqueue_style( 'datatables' );
 	wp_enqueue_script( 'agentpress-dt', get_stylesheet_directory_uri() . '/js/agentpress-dt.js', array( 'datatables', 'google-maps' ), filemtime( get_stylesheet_directory() . '/js/agentpress-dt.js' ) );
+
+	if( 'past-developments-map' == $atts['template'] )
+		$atts['render_table'] = false;
 	wp_localize_script( 'agentpress-dt', 'wpvars', array( 'json' => $json_url, 'sheet' => $sheet_url, 'key' => $atts['id'], 'render_table' => $atts['render_table'] ) );
 
 	$template_file = ( file_exists( get_stylesheet_directory() . '/lib/includes/' . $atts['template'] . '.html' ) )? get_stylesheet_directory() . '/lib/includes/' . $atts['template'] . '.html' : get_stylesheet_directory() . '/lib/includes/past-developments-table.html' ;
