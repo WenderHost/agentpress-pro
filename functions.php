@@ -20,6 +20,7 @@ define( 'CHILD_THEME_VERSION', '3.1.1' );
 //include_once( get_stylesheet_directory() . '/lib/acf/acf.property-fields.php' );
 include_once( get_stylesheet_directory() . '/lib/classes/class.property-map-widget.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.gravityforms.php' );
+include_once( get_stylesheet_directory() . '/lib/fns/googlemaps.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.listings.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.listing-sidebar.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.shortcodes.php' );
