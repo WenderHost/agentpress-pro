@@ -7,6 +7,7 @@
 	$('.map-container .loading').width( loadingParent.width() ).css( 'z-index', 1 );
 
 	$(document).ready( function ($) {
+		/*
 		function initTableTop() {
 			Tabletop.init( {
 				key: wpvars.key,
@@ -26,6 +27,20 @@
 			} )
 		}
 		initTableTop();
+		*/
+		console.log('👋 JSON URL: ', wpvars.json_url);
+		$.get( wpvars.json_url, function( data ){
+			console.log(data);
+			if( true == wpvars.render_table ){
+				renderTable(data);
+			} else {
+				data.forEach(function(element, index){
+					console.log( element );
+					$('#past-developments-map').append('<div class="marker" data-city="' + element.City + '" data-state="' + element.State + '" data-lat="' + element.Latitude + '" data-lng="' + element.Longitude + '">' + element.Property + ', ' + element['Square Feet'] + 'ft<sup>2</sup><br>' + element.City + ', ' + element.State + '</div>');
+				});
+				render_map( developmentsMap );
+			}
+		});
 
 		var columns = [
 			{'data': 'city', 'title': 'Property' },

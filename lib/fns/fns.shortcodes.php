@@ -1,5 +1,14 @@
 <?php
-add_shortcode( 'past-developments', 'agentpress_past_developments' );
+
+/**
+ * Displays a Google Map of Past Developments.
+ *
+ * @param      array  $atts   {
+ *   @type  string  $id           The spreadsheet's ID.
+ *   @type  bool    $render_table Whether or not to render the table. Default `true`.
+ *   @type  string  $tempalte     The template file to render.
+ * }
+ */
 function agentpress_past_developments( $atts ){
 	$atts = shortcode_atts( array(
 		'id' => null,
@@ -7,7 +16,8 @@ function agentpress_past_developments( $atts ){
 		'template' => 'past-developments-table'
 	), $atts );
 
-	$json_url = sprintf( 'https://spreadsheets.google.com/feeds/list/%s/od6/public/basic?alt=json', $atts['id'] );
+	//$json_url = sprintf( 'https://spreadsheets.google.com/feeds/list/%s/od6/public/basic?alt=json', $atts['id'] );
+	$json_url = sprintf( 'https://opensheet.elk.sh/%s/Sheet1', $atts['id'] );
 	$sheet_url = sprintf( 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=%s&output=html', $atts['id'] );
 
 	wp_enqueue_script( 'datatables' );
@@ -16,7 +26,13 @@ function agentpress_past_developments( $atts ){
 
 	if( 'past-developments-map' == $atts['template'] )
 		$atts['render_table'] = false;
-	wp_localize_script( 'agentpress-dt', 'wpvars', array( 'json' => $json_url, 'sheet' => $sheet_url, 'key' => $atts['id'], 'render_table' => $atts['render_table'] ) );
+	wp_localize_script( 'agentpress-dt', 'wpvars', [
+		'json' => $json_url,
+		'sheet' => $sheet_url,
+		'key' => $atts['id'],
+		'render_table' => $atts['render_table'],
+		'json_url'	=> get_stylesheet_directory_uri() . '/js/past-developments.json',
+	]);
 
 	$template_file = ( file_exists( get_stylesheet_directory() . '/lib/includes/' . $atts['template'] . '.html' ) )? get_stylesheet_directory() . '/lib/includes/' . $atts['template'] . '.html' : get_stylesheet_directory() . '/lib/includes/past-developments-table.html' ;
 
@@ -24,6 +40,7 @@ function agentpress_past_developments( $atts ){
 
 	echo $html;
 }
+add_shortcode( 'past-developments', 'agentpress_past_developments' );
 
 /**
  * Returns HTML for displaying a `Team Member`.
