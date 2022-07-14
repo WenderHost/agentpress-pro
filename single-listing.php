@@ -81,6 +81,7 @@ function agentpress_listing_content(){
 	if( function_exists( 'get_field' ) ){
 		$rows_html = array();
 		$rows = get_field( 'demographics_rows' );
+		$format_demographics = '';
 		if( $rows ){
 			$format_demographics = '<h3>Demographics</h3><table><colgroup><col style="width: 32%%;" /><col style="width: 17%%;" /><col style="width: 17%%;" /><col style="width: 17%%;" /><col style="width: 17%%;" /></colgroup>
 				<thead>
