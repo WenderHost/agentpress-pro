@@ -91,8 +91,7 @@ function agentpress_scripts() {
 
 	wp_register_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?v=4.exp&ver=1.0&key=' . $key );
 	wp_register_script( 'listing-js', get_bloginfo( 'stylesheet_directory' ) . '/lib/js/listing.js', array( 'jquery', 'google-maps', 'responsive-tabs' ), filemtime( get_stylesheet_directory() . '/lib/js/listing.js' ), true  );
-	wp_register_script( 'responsive-tabs', get_stylesheet_directory_uri() . '/node_modules/responsive-tabs/js/jquery.responsiveTabs.min.js', array( 'jquery' ), '1.5.0', true );
-	//wp_register_style( 'responsive-tabs', get_stylesheet_directory_uri() . '/node_modules/responsive-tabs/css/responsive-tabs.css' );
+	wp_register_script( 'responsive-tabs', get_stylesheet_directory_uri() . '/lib/js/jquery.responsiveTabs.min.js', array( 'jquery' ), '1.5.0', true );
 
 	// Tabletop
 	wp_register_script( 'tabletop', get_stylesheet_directory_uri() . '/bower_components/tabletop/src/tabletop.js', null, filemtime( get_stylesheet_directory() . '/bower_components/tabletop/src/tabletop.js' ), true );
