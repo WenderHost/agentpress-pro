@@ -35,9 +35,10 @@ The AgentPress Pro theme is translation ready.  More information about the trans
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
 
+= 3.1.1 =
+* Relocate archive intro text on listing pages
+
 = 3.1 =
 * Update theme setting defaults
 * Use theme supports for after entry widget
 
-= 3.1.1 =
-* Relocate archive intro text on listing pages
