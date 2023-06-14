@@ -1,0 +1,16 @@
+{
+  "name": "WenderHost/agentpress-pro",
+  "description": "Modified version of the Genesis AgentPress Pro Child Theme.",
+  "keywords": ["wordpress", "theme", "genesis"],
+  "homepage": "https://github.com/WenderHost/agentpress-pro",
+  "authors": [
+    {
+      "name": "Michael Wender",
+      "homepage": "https://github.com/WenderHost/agentpress-pro"
+    }
+  ],
+  "type": "wordpress-theme",
+  "require": {
+    "php": ">=8.0"
+  }
+}

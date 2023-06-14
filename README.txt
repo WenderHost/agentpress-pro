@@ -35,6 +35,9 @@ The AgentPress Pro theme is translation ready.  More information about the trans
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
 
+= 3.1.2 =
+* Adding composer.json.
+
 = 3.1.1 =
 * Relocate archive intro text on listing pages
 
