@@ -73,8 +73,7 @@ function agentpress_listing_content(){
 
 	$html = array();
 
-	$format_overview = '<div class="two-thirds first">%1$s%3$s%4$s</div><div class="one-third">%2$s</div>';
-	$thumbnail = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large', array( 'class' => 'property-image' ) ) : '<img src="http://placehold.it/1200x600&text=Image+coming+soon!" />';
+	$thumbnail = ( has_post_thumbnail() )? get_the_post_thumbnail( $post->ID, 'large', array( 'class' => 'property-image' ) ) : '<img src="https://via.placeholder.com/1200x600&text=Image%20coming%20soon!" />';
 	$post_content = apply_filters( 'the_content', get_the_content() );
 
 	// Demographics
@@ -117,14 +116,21 @@ function agentpress_listing_content(){
 		$demographics_html = '<p><strong>MISSING PLUGIN:</strong><br />Please install the <a href="http://www.advancedcustomfields.com/pro/" target="_blank">ACF Pro Plugin.</a></p>';
 	}
 
+	// Features
+	$features = '';
+	if( function_exists( 'get_field' ) ){
+		$feature_rows = [];
+		if( have_rows( 'features' ) ){
+			while( have_rows( 'features' ) ): the_row();
+				$feature = get_sub_field( 'feature' );
+				$feature_rows[] = $feature;
+			endwhile;
+		}
+		$features = '<h3>Features</h3><ul><li>' . implode( '</li><li>', $feature_rows ) . '</li></ul>';
+	}
+
 	// Additional Details
 	if( function_exists( 'get_field' ) ){
-		$format_additional_details = '<h3>Additional Details</h3><table><colgroup><col style="width: 32%%;" /><col style="width: 68%%;" /></colgroup>
-			<tbody>
-				%1$s
-			</tbody>
-		</table>';
-
 		$rows_html = array();
 		$additional_details_rows = array( 'total_size', 'traffic_count', 'anchor_stores' );
 		foreach( $additional_details_rows as $field_name ){
@@ -162,10 +168,17 @@ function agentpress_listing_content(){
 			}
 		}
 
-		$additional_details_html = sprintf( $format_additional_details, implode( '', $rows_html ) );
+		$format_additional_details = '<h3>Additional Details</h3><table><colgroup><col style="width: 32%%;" /><col style="width: 68%%;" /></colgroup>
+			<tbody>
+				%1$s
+			</tbody>
+		</table>';
+
+		$additional_details_html = ( 0 < count( $rows_html ) )? sprintf( $format_additional_details, implode( '', $rows_html ) ) : '' ;
 	}
 
-	$html['overview'] = sprintf( $format_overview, $thumbnail, $post_content, $demographics_html, $additional_details_html );
+	$format_overview = '<div class="two-thirds first">%1$s%3$s%5$s%4$s</div><div class="one-third">%2$s</div>';
+	$html['overview'] = sprintf( $format_overview, $thumbnail, $post_content, $demographics_html, $additional_details_html, $features );
 
 	// Site Plan
 	$site_plan = get_field( 'site_plan' );
@@ -193,6 +206,8 @@ function agentpress_listing_content(){
 		$format_map = '<div class="acf-map"><div class="marker" data-lat="%1$s" data-lng="%2$s"></div></div>';
 
 		$html['map'] = sprintf( $format_map, $map['lat'], $map['lng'] );
+	} else {
+		$html['map'] = '';
 	}
 
 	$html = '<div id="property-tabs">
