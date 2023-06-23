@@ -10,7 +10,7 @@ function agentpress_listing_archive_loop() {
 		$name = get_the_title();
 		if( function_exists( 'get_field' ) ){
 			$map = get_field( 'map' );
-			$address = $map['address'];
+			$address = ( is_array( $map ) && array_key_exists( 'address', $map ) && is_string( $map['address'] ) )? $map['address'] : '---' ;
 		} else {
 			$address = '**Missing ACF Plugin**';
 		}
