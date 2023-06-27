@@ -210,14 +210,49 @@ function agentpress_listing_content(){
 		$html['map'] = '';
 	}
 
-	$html = '<div id="property-tabs">
-		<ul>
-			<li><a href="#overview">Overview</a></li>' . $html['site_plan_tab'] . '
-			<li><a href="#map">Map</a></li>
-		</ul>
-		<div id="overview">' . $html['overview'] . '</div>' . $html['site_plan_content'] . '
-		<div id="map">' . $html['map'] . '</div>
-	</div>';
+	$tabs = [];
+	$tabs[] = [
+		'title'	=> 'Overview',
+		'id'		=> 'overview',
+		'content'	=> $html['overview'],
+	];
+	if( ! empty( $html['site_plan_content'] ) ){
+		$tabs[] = [
+			'title'	=> 'Site Plan',
+			'id'		=> 'site-plan',
+			'content'	=> $html['site_plan_content'],
+		];
+	}
+	if( ! empty( $html['map'] ) ){
+		$tabs[] = [
+			'title'	=> 'Map',
+			'id'		=> 'map',
+			'content'	=> $html['map'],
+		];
+	}
+
+	// Additional Tabs
+	if( have_rows( 'tabs' ) ):
+		while( have_rows( 'tabs') ): the_row();
+			$title = get_sub_field( 'title' );
+			$tabs[] = [
+				'title'		=> $title,
+				'id'			=> sanitize_title( $title ),
+				'content'	=> get_sub_field( 'content' ),
+			];
+		endwhile;
+	endif;
+
+	if( 0 < count( $tabs ) ):
+		$tabs_html = '';
+		$tabs_content_html = '';
+		foreach( $tabs as $tab ){
+			$tabs_html.= '<li style="margin-right: 4px;"><a href="#' . $tab['id'] . '">' . $tab['title'] . '</a></li>';
+			$tabs_content_html.= '<div id="' . $tab['id'] . '">' . $tab['content'] . '</div>';
+		}
+	endif;
+
+	$html = '<div id="property-tabs"><ul>' . $tabs_html . '</ul>' . $tabs_content_html . '</div>';
 
 	echo do_shortcode( $html );
 }
