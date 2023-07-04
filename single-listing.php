@@ -125,8 +125,8 @@ function agentpress_listing_content(){
 				$feature = get_sub_field( 'feature' );
 				$feature_rows[] = $feature;
 			endwhile;
+			$features = '<h3>Features</h3><ul><li>' . implode( '</li><li>', $feature_rows ) . '</li></ul>';
 		}
-		$features = '<h3>Features</h3><ul><li>' . implode( '</li><li>', $feature_rows ) . '</li></ul>';
 	}
 
 	// Additional Details
