@@ -35,6 +35,9 @@ The AgentPress Pro theme is translation ready.  More information about the trans
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
 
+= 3.2.1 =
+* Not showing "Features" on `single-listing.php` when no "Features" have been entered.
+
 = 3.2 =
 * Adding "Tabs" field group for Listings.
 * Moving ACF Field Groups to `/acf-json/`.
