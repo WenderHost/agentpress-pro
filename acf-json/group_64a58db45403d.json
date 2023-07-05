@@ -1,0 +1,45 @@
+{
+    "key": "group_64a58db45403d",
+    "title": "Listing Banner",
+    "fields": [
+        {
+            "key": "field_64a58db486190",
+            "label": "Banner Text",
+            "name": "_listing_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "This text shows as a banner on the right of the listing's thumbnail.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "listing"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1688571404
+}
