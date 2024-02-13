@@ -1516,5 +1516,38 @@
         "Latitude": "36.933433",
         "Longitude": "-82.6290459",
         "Zip Code": ""
+    },
+    {
+        "Property": "Kingston Corner",
+        "Square Feet": "135,000",
+        "Address": "",
+        "City": "Knoxville",
+        "State": "TN",
+        "City, State": "Knoxville, TN",
+        "Latitude": "35.914709",
+        "Longitude": "-84.085216",
+        "Zip Code": ""
+    },
+    {
+        "Property": "Smoky Mountain Gateway (Publix, HomeGoods, Hamricks, Five Below, and shops)",
+        "Square Feet": "150,000",
+        "Address": "",
+        "City": "Sevierville",
+        "State": "TN",
+        "City, State": "Sevierville, TN",
+        "Latitude": "35.882757",
+        "Longitude": "-83.574832",
+        "Zip Code": ""
+    },
+    {
+        "Property": "Okatie Crossing (Assisted Living, Medical, Retail, Multi-Family, Outlots)",
+        "Square Feet": "300,000",
+        "Address": "",
+        "City": "Bluffton/Hardeeville",
+        "State": "SC",
+        "City, State": "Bluffton/Hardeeville, SC",
+        "Latitude": "32.299032",
+        "Longitude": "-80.940808",
+        "Zip Code": ""
     }
 ]
