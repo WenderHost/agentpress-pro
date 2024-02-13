@@ -35,6 +35,9 @@ The AgentPress Pro theme is translation ready.  More information about the trans
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
 
+= 3.4.0 =
+* Updating Past Developments.
+
 = 3.3.0 =
 * Adding ACF field group for "Listing Banner".
 
