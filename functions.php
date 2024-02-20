@@ -20,7 +20,6 @@ define( 'CHILD_THEME_VERSION', '3.1.1' );
 add_filter( 'jetpack_just_in_time_msgs', '__return_false' );
 
 //* Include additional files
-//include_once( get_stylesheet_directory() . '/lib/acf/acf.property-fields.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.acf.php' );
 include_once( get_stylesheet_directory() . '/lib/classes/class.property-map-widget.php' );
 include_once( get_stylesheet_directory() . '/lib/fns/fns.gravityforms.php' );
