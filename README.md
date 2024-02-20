@@ -37,6 +37,9 @@ Please visit http://my.studiopress.com/help/ for theme support.
 
 # CHANGLOG
 
+= 3.4.2 =
+* Updating "one-hundred twenty" to "one-hundred forty" in `lib/includes/past-developments-table.html`.
+
 = 3.4.1 =
 * Updating "one-hundred" to "one-hundred twenty" in `lib/includes/past-developments-table.html`.
 * Renaming label for ACF Listing `total_size` to "Headline" and updating field to a text field.
