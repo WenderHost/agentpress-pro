@@ -35,6 +35,11 @@ The AgentPress Pro theme is translation ready.  More information about the trans
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
 
+= 3.4.1 =
+* Updating "one-hundred" to "one-hundred twenty" in `lib/includes/past-developments-table.html`.
+* Renaming label for ACF Listing `total_size` to "Headline" and updating field to a text field.
+* Removing `/lib/acf/acf.property-fields.php` as it was unused, and we are using ACF Local JSON (i.e. `/acf-json/`) for tracking changes to ACF Fields.
+
 = 3.4.0 =
 * Updating Past Developments.
 
