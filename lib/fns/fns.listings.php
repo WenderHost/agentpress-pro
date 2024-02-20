@@ -15,15 +15,17 @@ function agentpress_listing_archive_loop() {
 			$address = '**Missing ACF Plugin**';
 		}
 
-		$sq_ft = get_field( 'total_size' );
-		if( is_numeric( $sq_ft ) )
-			$sq_ft = number_format( $sq_ft );
+
 
 		$loop = ''; // init
 
 		$loop .= sprintf( '<a href="%s">%s</a>', get_permalink(), genesis_get_image( array( 'size' => 'properties' ) ) );
 
-		$sq_ft = ( empty( $sq_ft ) )? $sq_ft = '-- TBA --' : $sq_ft . ' ft<sup>2</sup>' ;
+		$sq_ft = get_field( 'total_size' );
+		if( is_numeric( $sq_ft ) ){
+			$sq_ft = number_format( $sq_ft );
+			$sq_ft = ( empty( $sq_ft ) )? $sq_ft = '-- TBA --' : $sq_ft . ' ft<sup>2</sup>' ;
+		}
 
 		if( $sq_ft ) {
 			$loop .= sprintf( '<span class="listing-price">%s</span>', $sq_ft );
