@@ -157,7 +157,8 @@ function agentpress_listing_content(){
 				if( ! empty( $field['append'] ) )
 					$value.= ' ' . $field['append'];
 
-				$rows_html[] = '<tr><td>' . $field['label'] . '</td><td>' . $value . '</td></tr>';
+				$label = ( 'Headline' == $field['label'] )? 'Details' : $field['label'] ;
+				$rows_html[] = '<tr><td>' . $label . '</td><td>' . $value . '</td></tr>';
 			}
 		}
 
