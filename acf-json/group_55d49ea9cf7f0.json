@@ -4,27 +4,23 @@
     "fields": [
         {
             "key": "field_55d49eb6b43b4",
-            "label": "Total Size",
+            "label": "Headline",
             "name": "total_size",
             "aria-label": "",
-            "type": "number",
-            "instructions": "Enter the property's total square footage.",
+            "type": "text",
+            "instructions": "Enter a headline for the property (e.g. \"Space Available\", \"Coming Soon\", \"200+ Acres\"). This is shown above the property's address on archive listings and under \"Additional Details\" on property pages.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": 33,
+                "width": "33",
                 "class": "",
                 "id": ""
             },
             "default_value": "",
+            "maxlength": "",
             "placeholder": "",
             "prepend": "",
-            "append": "ft<sup>2<\/sup>",
-            "min": "",
-            "max": "",
-            "step": "",
-            "readonly": 0,
-            "disabled": 0
+            "append": ""
         },
         {
             "key": "field_55d49fe7b43b6",
@@ -90,8 +86,6 @@
             "max": 0,
             "layout": "table",
             "button_label": "Add Row",
-            "rows_per_page": 20,
-            "collapsed": "",
             "sub_fields": [
                 {
                     "key": "field_55d4a12aedbb7",
@@ -139,7 +133,9 @@
                     "disabled": 0,
                     "parent_repeater": "field_55d4a10dedbb6"
                 }
-            ]
+            ],
+            "rows_per_page": 20,
+            "collapsed": ""
         }
     ],
     "location": [
@@ -160,5 +156,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1687889734
+    "modified": 1708446231
 }
