@@ -121,9 +121,10 @@ function agentpress_theme_features_listings_filter( $loop ){
 	}
 
 	$sq_ft = get_field( 'total_size' );
-	if( is_numeric( $sq_ft ) )
+	if( is_numeric( $sq_ft ) ){
 		$sq_ft = number_format( $sq_ft );
-	$sq_ft = ( empty( $sq_ft ) )? $sq_ft = '-- TBA --' : $sq_ft . ' ft<sup>2</sup>' ;
+		$sq_ft = ( empty( $sq_ft ) )? $sq_ft = '-- TBA --' : $sq_ft . ' ft<sup>2</sup>' ;
+	}
 
 	if( $sq_ft ) {
 		$loop .= sprintf( '<span class="listing-price">%s</span>', $sq_ft );

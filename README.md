@@ -37,6 +37,10 @@ Please visit http://my.studiopress.com/help/ for theme support.
 
 # CHANGLOG
 
+= 3.4.3 =
+* Updating "one-hundred twenty" to "one-hundred forty" in `lib/includes/past-developments-map.html`.
+* Updating listings widget to not display "square ft" for text entries in `total_size`.
+
 = 3.4.2 =
 * Updating "one-hundred twenty" to "one-hundred forty" in `lib/includes/past-developments-table.html`.
 
