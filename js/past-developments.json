@@ -619,7 +619,7 @@
         "Property": "Walgreens",
         "Square Feet": "14,850",
         "Address": "",
-        "City": "Madisonville",
+        "City": "Madisonville (N)",
         "State": "KY",
         "City, State": "Madisonville, KY",
         "Latitude": "37.3281005",
@@ -630,7 +630,7 @@
         "Property": "Walgreens",
         "Square Feet": "14,850",
         "Address": "",
-        "City": "S Madisonville",
+        "City": "Madisonville (S)",
         "State": "KY",
         "City, State": "S Madisonville, KY",
         "Latitude": "37.3281005",
@@ -1518,7 +1518,7 @@
         "Zip Code": ""
     },
     {
-        "Property": "Kingston Corner",
+        "Property": "Kingston Corner - Main Event, Duluth Trading, Shops",
         "Square Feet": "135,000",
         "Address": "",
         "City": "Knoxville",
@@ -1548,6 +1548,39 @@
         "City, State": "Bluffton/Hardeeville, SC",
         "Latitude": "32.299032",
         "Longitude": "-80.940808",
+        "Zip Code": ""
+    },
+    {
+        "Property": "Walgreens",
+        "Square Feet": "14,850",
+        "Address": "",
+        "City": "Sumter",
+        "State": "SC",
+        "City, State": "Sumter, SC",
+        "Latitude": "33.94542768042538",
+        "Longitude": "-80.37336987401454",
+        "Zip Code": ""
+    },
+    {
+        "Property": "Tractor Supply",
+        "Square Feet": "19,097",
+        "Address": "",
+        "City": "Oneida",
+        "State": "TN",
+        "City, State": "Oneida, TN",
+        "Latitude": "36.51812772076297",
+        "Longitude": "-84.50597640482513",
+        "Zip Code": ""
+    },
+    {
+        "Property": "Tractor Supply",
+        "Square Feet": "22,980",
+        "Address": "",
+        "City": "New Tazewell",
+        "State": "TN",
+        "City, State": "New Tazewell, TN",
+        "Latitude": "36.440511593936485",
+        "Longitude": "-83.60583671625608",
         "Zip Code": ""
     }
 ]
